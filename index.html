@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waseem's Photo Project: A Meta-Analysis</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0d0d0d;--surface:#151515;--card:#1a1a1a;--border:#2a2a2a;
+  --text:#e0e0e0;--text-dim:#888;--accent:#4fc3f7;--accent2:#81c784;
+  --jensen:#76b900;--sama:#ff6b35;--quote-bg:#1e1e2e;
+  --timeline-line:#333;
+}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Georgia','Times New Roman',serif;
+  line-height:1.7;max-width:900px;margin:0 auto;
+  padding:20px 24px 80px;
+}
+h1{
+  font-size:2.4em;font-weight:700;margin:40px 0 8px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;letter-spacing:-0.02em;
+}
+.subtitle{color:var(--text-dim);font-size:1.1em;margin-bottom:12px;font-style:italic}
+.byline{color:var(--text-dim);font-size:0.85em;margin-bottom:40px}
+h2{
+  font-size:1.6em;color:var(--accent);margin:48px 0 16px;
+  border-bottom:1px solid var(--border);padding-bottom:8px;
+}
+h3{font-size:1.2em;color:var(--accent2);margin:28px 0 12px}
+p{margin:0 0 16px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Audio Player */
+.audio-section{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:24px;margin:0 0 48px;
+}
+.audio-section h3{margin:0 0 8px;color:var(--text)}
+.audio-section .audio-subtitle{color:var(--text-dim);font-size:0.9em;margin-bottom:16px}
+.speaker-legend{display:flex;gap:20px;margin-bottom:16px;font-size:0.9em}
+.speaker-legend span{display:flex;align-items:center;gap:6px}
+.dot-jensen{width:10px;height:10px;border-radius:50%;background:var(--jensen);display:inline-block}
+.dot-sama{width:10px;height:10px;border-radius:50%;background:var(--sama);display:inline-block}
+audio{width:100%;margin-top:8px;border-radius:8px}
+
+/* Email Quotes */
+blockquote{
+  background:var(--quote-bg);border-left:3px solid var(--accent);
+  padding:16px 20px;margin:20px 0;border-radius:0 8px 8px 0;
+  font-style:italic;
+}
+blockquote .quote-author{
+  display:block;color:var(--accent);font-style:normal;
+  font-size:0.85em;margin-bottom:6px;font-weight:600;
+}
+blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
+
+/* Timeline */
+.timeline{position:relative;padding:20px 0 20px 40px;margin:24px 0 40px}
+.timeline::before{
+  content:'';position:absolute;left:16px;top:0;bottom:0;
+  width:2px;background:var(--timeline-line);
+}
+.timeline-item{position:relative;margin-bottom:28px}
+.timeline-item::before{
+  content:'';position:absolute;left:-28px;top:8px;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--accent);border:2px solid var(--bg);
+}
+.timeline-item.solved::before{background:var(--accent2)}
+.timeline-item.struggle::before{background:#ff9800}
+.timeline-item.nsa::before{background:#e91e63}
+.timeline-year{
+  font-size:0.8em;color:var(--accent);font-weight:700;
+  letter-spacing:0.05em;text-transform:uppercase;
+}
+.timeline-title{font-weight:600;margin:4px 0 2px}
+.timeline-desc{color:var(--text-dim);font-size:0.9em}
+
+/* Comparison Cards */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+@media(max-width:640px){.compare{grid-template-columns:1fr}}
+.compare-card{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:20px;
+}
+.compare-card.old{border-color:#ff5252}
+.compare-card.new{border-color:var(--accent2)}
+.compare-card h4{
+  font-size:0.85em;text-transform:uppercase;letter-spacing:0.08em;
+  margin-bottom:12px;
+}
+.compare-card.old h4{color:#ff5252}
+.compare-card.new h4{color:var(--accent2)}
+.compare-card code{
+  display:block;background:var(--bg);padding:12px;border-radius:6px;
+  font-size:0.85em;margin:8px 0;overflow-x:auto;
+  font-family:'Courier New',monospace;color:var(--text);
+}
+.compare-card .metric{
+  display:flex;justify-content:space-between;padding:6px 0;
+  border-bottom:1px solid var(--border);font-size:0.9em;
+}
+.compare-card .metric:last-child{border:none}
+.metric-label{color:var(--text-dim)}
+.metric-val{font-weight:600}
+.metric-val.bad{color:#ff5252}
+.metric-val.good{color:var(--accent2)}
+
+/* Pipeline Diagram */
+.pipeline{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:24px;margin:24px 0;overflow-x:auto;
+}
+.pipeline-steps{
+  display:flex;align-items:center;gap:0;justify-content:center;
+  flex-wrap:wrap;
+}
+.pipeline-step{
+  background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  padding:12px 16px;text-align:center;min-width:120px;
+}
+.pipeline-step .step-num{
+  font-size:0.7em;color:var(--accent);font-weight:700;
+  letter-spacing:0.1em;
+}
+.pipeline-step .step-name{font-size:0.9em;font-weight:600;margin:4px 0 2px}
+.pipeline-step .step-tool{font-size:0.75em;color:var(--text-dim)}
+.pipeline-arrow{color:var(--accent);font-size:1.5em;padding:0 6px;flex-shrink:0}
+
+/* Cost Table */
+.cost-table{width:100%;border-collapse:collapse;margin:16px 0}
+.cost-table th,.cost-table td{
+  padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);
+  font-size:0.9em;
+}
+.cost-table th{color:var(--accent);font-size:0.8em;text-transform:uppercase;letter-spacing:0.05em}
+.cost-table td:last-child{text-align:right}
+
+/* Solutions Grid */
+.solutions{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin:16px 0}
+.solution-card{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:16px;
+}
+.solution-card .sol-name{font-weight:700;color:var(--accent);margin-bottom:4px}
+.solution-card .sol-type{
+  font-size:0.75em;color:var(--accent2);text-transform:uppercase;
+  letter-spacing:0.05em;margin-bottom:8px;
+}
+.solution-card .sol-desc{font-size:0.85em;color:var(--text-dim)}
+.solution-card .sol-year{font-size:0.8em;color:var(--text-dim);margin-top:6px}
+
+/* Dialogue Transcript */
+.dialogue{margin:24px 0}
+.dialogue-line{
+  display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;
+}
+.dialogue-line .speaker{
+  font-weight:700;font-size:0.85em;min-width:70px;
+  padding-top:2px;flex-shrink:0;
+}
+.dialogue-line .speaker.jensen{color:var(--jensen)}
+.dialogue-line .speaker.sama{color:var(--sama)}
+.dialogue-line .text{font-size:0.95em;line-height:1.6}
+.stage-direction{
+  text-align:center;color:var(--text-dim);font-size:0.85em;
+  font-style:italic;margin:20px 0;
+}
+
+/* Footer */
+.footer{
+  margin-top:60px;padding-top:24px;border-top:1px solid var(--border);
+  color:var(--text-dim);font-size:0.8em;text-align:center;
+}
+.footer a{color:var(--accent)}
+
+/* Scroll animation */
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.6s,transform 0.6s}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* Responsive */
+@media(max-width:640px){
+  body{padding:12px 16px 60px}
+  h1{font-size:1.8em}
+  h2{font-size:1.3em}
+  .pipeline-steps{flex-direction:column}
+  .pipeline-arrow{transform:rotate(90deg)}
+}
+</style>
+</head>
+<body>
+
+<h1>Waseem's Photo Project</h1>
+<p class="subtitle">A Meta-Analysis of Near-Duplicate Image Detection: 2001 to 2026</p>
+<p class="byline">Inspired by a real email thread between Waseem Daher, Ray He, and Keith Winstein</p>
+
+<!-- Audio Section -->
+<div class="audio-section" id="audio-section">
+  <h3>&#x1F399; The Dedup Discourse</h3>
+  <p class="audio-subtitle">Jensen Huang and Sam Altman debate whether Waseem should have just bought more GPUs</p>
+  <div class="speaker-legend">
+    <span><span class="dot-jensen"></span> Jensen Huang</span>
+    <span><span class="dot-sama"></span> Sam Altman</span>
+  </div>
+  <audio controls preload="metadata" id="main-audio">
+    <source src="audio/dedup-discourse.mp3" type="audio/mpeg">
+    Your browser does not support audio playback.
+  </audio>
+</div>
+
+<!-- The Origin Story -->
+<h2>The Origin Story</h2>
+
+<p>In October 2022, Waseem Daher sent an email to two friends. The problem was simple. The solution was not.</p>
+
+<blockquote>
+  <span class="quote-author">Waseem Daher</span>
+  <span class="quote-date">October 16, 2022</span>
+  <br><br>
+  I have about 8,000 family photos. Total size ~40GB or so. I've organized almost all of them into folders by date/event, but about 1,300 remain to be sorted. Of those 1,300, many of them are duplicates of images I've already sorted, but they're not perfect duplicates because: sometimes they're the result of having scanned a print more than once, sometimes one is "the scan of the negative" and one is "the scan of the print."
+</blockquote>
+
+<p>The constraints made this interesting. These weren't digital camera burst shots. They were <em>analog photographs</em> that had been scanned multiple times, sometimes as negatives, sometimes as prints. The "same" photo could look dramatically different depending on the scanning hardware, orientation, color correction, and whether it was scanned from a print or a negative.</p>
+
+<p>Waseem framed two sub-problems:</p>
+<ol style="margin:0 0 16px 24px">
+  <li><strong>Duplicate detection</strong> — find near-identical images across folders</li>
+  <li><strong>Similar scene detection</strong> — group thematically related photos</li>
+</ol>
+
+<p>And he did the math on brute force:</p>
+
+<blockquote>
+  <span class="quote-author">Waseem Daher</span>
+  Doing #2 by hand is too slow — 8000² = 64,000,000 — if each comparison took only one second it would take me two years. My budget for this is probably like... ≤$1k, not $640k.
+</blockquote>
+
+<p>Ray He suggested perceptual hashing and CLIP-based scene descriptions. Keith Winstein, a Stanford CS professor, wished for a turnkey solution that didn't exist.</p>
+
+<!-- The 2022 Solution -->
+<h2>What Actually Worked in 2022</h2>
+
+<p>After trying <code>imagehash</code> (poor results) and CLIP interrogator (cool but impractical), Waseem landed on <a href="https://www.phash.org">pHash</a> — the perceptual hash library using DCT (Discrete Cosine Transform) to generate compact fingerprints of images.</p>
+
+<blockquote>
+  <span class="quote-author">Waseem Daher</span>
+  <span class="quote-date">October 17, 2022</span>
+  <br><br>
+  phash.org actually seems to work well on my three test cases (the DCT option). Of course, it didn't have Python bindings and I was totally unable to get it to build in Colab, but building it locally seems to actually sorta work. And the n² comparison is OK as long as the actual comparison itself is fast!
+</blockquote>
+
+<p>The result:</p>
+
+<blockquote>
+  <span class="quote-author">Waseem Daher</span>
+  <span class="quote-date">October 18, 2022</span>
+  <br><br>
+  I hash each image, and then I do the n² comparison over all hashes to compute the hamming distance between the hashes to score them on similarity. If it's &lt; 10, they're basically in fact "the same image", if it's ~15 or so, sometimes they are, sometimes they're totally random.
+</blockquote>
+
+<p>It worked. Well enough, anyway. "Well enough to give the human (me) some manual tasks to do that I think are reasonably good uses of time."</p>
+
+<p>Keith's reaction captured the state of the art perfectly:</p>
+
+<blockquote>
+  <span class="quote-author">Keith Winstein, Stanford CS</span>
+  <span class="quote-date">October 18, 2022</span>
+  <br><br>
+  I don't have a lot to add to this, but I'm sorry the answer isn't just "if you don't want to DIY this, you can put everything in Google Photos [or FOSS Gallery2, or Adobe Whatever, or some other photo-archiving software] and it will dependably eliminate duplicates and cluster similar events together for you." :-/
+</blockquote>
+
+<p>And then came The Prophecy:</p>
+
+<blockquote>
+  <span class="quote-author">Ray He</span>
+  <span class="quote-date">October 2022</span>
+  <br><br>
+  Just wait 10 years and the right thing will happen.
+</blockquote>
+
+<!-- The Prophecy Fulfilled -->
+<h2>The Prophecy (Mostly) Fulfilled</h2>
+
+<p>Four years later — not ten — Waseem revived the thread.</p>
+
+<blockquote>
+  <span class="quote-author">Waseem Daher</span>
+  <span class="quote-date">August 27, 2026</span>
+  <br><br>
+  In retrospect this was the right answer. It's not totally turnkey quite yet but this is basically a tractable problem today.
+</blockquote>
+
+<blockquote>
+  <span class="quote-author">Ray He</span>
+  <span class="quote-date">August 27, 2026</span>
+  <br><br>
+  Wait another 5 years and it'll be automatic!?
+</blockquote>
+
+<blockquote>
+  <span class="quote-author">Waseem Daher</span>
+  Probably more like 1-2 years but definitely by 5.
+</blockquote>
+
+<p>Keith added historical color:</p>
+
+<blockquote>
+  <span class="quote-author">Keith Winstein</span>
+  <span class="quote-date">August 27, 2026</span>
+  <br><br>
+  My recollection (circa like 2002) is that Dawn Perlner did a summer internship at the NSA working on basically exactly this problem! Like the FBI gets 1,000 photos of a kidnapped child, but a lot of them are essentially duplicate scans or xeroxes of the same underlying photo, and the FBI wants to boil them down to a smaller list of unique photos... I think parts of this problem have been tractable and in demand for like 25 years. It's a little sad the "Gallery2"s of the world did not continue to improve.
+</blockquote>
+
+<!-- Timeline -->
+<h2>A Timeline of Trying to Find the Same Photo Twice</h2>
+
+<div class="timeline">
+  <div class="timeline-item nsa">
+    <div class="timeline-year">~2001–2002</div>
+    <div class="timeline-title">NSA Summer Interns</div>
+    <div class="timeline-desc">Dawn Perlner works on photo deduplication for the FBI at the NSA. The problem: 1,000 photos of a kidnapped child, many duplicate scans/xeroxes. The tools: classified. The budget: unlimited. The result: also classified.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-year">2008–2010</div>
+    <div class="timeline-title">Perceptual Hashing Matures</div>
+    <div class="timeline-desc">pHash, dHash, aHash libraries emerge. DCT-based fingerprinting can detect near-duplicates via Hamming distance. Works great for resized/recompressed images. Struggles with crops, rotations, and negative-vs-print scans.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-year">2021</div>
+    <div class="timeline-title">CLIP Changes Everything</div>
+    <div class="timeline-desc">OpenAI's CLIP (Contrastive Language-Image Pre-training) learns joint text-image embeddings. Suddenly you can search photos by meaning, not just pixels. A sunset is similar to another sunset even if they share zero pixel values.</div>
+  </div>
+  <div class="timeline-item struggle">
+    <div class="timeline-year">October 2022</div>
+    <div class="timeline-title">Waseem's Struggle</div>
+    <div class="timeline-desc">8,000 family photos. 1,300 unsorted. pHash works "well enough" but requires n² comparisons and manual threshold tuning. No turnkey solution exists. Ray says: "Wait 10 years."</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-year">September 2022</div>
+    <div class="timeline-title">Apple Ships Duplicate Detection</div>
+    <div class="timeline-desc">iOS 16 introduces on-device ML duplicate detection in Photos. Uses neural embeddings under the hood. Works automatically, merges metadata from duplicates. The turnkey solution Keith wished for — if you're in Apple's ecosystem.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-year">November 2023</div>
+    <div class="timeline-title">Google Photos "Photo Stacks"</div>
+    <div class="timeline-desc">Google rolls out AI-powered stacking of similar photos. Automatically groups burst shots and selects the best one. Uses embeddings + clustering internally. Still doesn't deduplicate across scans, though.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-year">2023–2024</div>
+    <div class="timeline-title">DINOv2 + Open-Source Explosion</div>
+    <div class="timeline-desc">Meta's DINOv2 (self-supervised ViT) produces excellent visual embeddings without any labels. Immich ships CLIP-based smart search. FAISS makes ANN search accessible. The building blocks are all free and open-source.</div>
+  </div>
+  <div class="timeline-item solved">
+    <div class="timeline-year">2025–2026</div>
+    <div class="timeline-title">Basically Solved</div>
+    <div class="timeline-desc">Purpose-built tools like photo-dedup (DINOv2 + MUSIQ + face-pose), Mirror of Maya (DINOv2 + FAISS, F1 > 0.93), and swarm-of-agents-photo-gaze (DINOv2 + Qdrant) solve Waseem's exact problem. Cost: $0. Time: an afternoon.</div>
+  </div>
+</div>
+
+<!-- Old vs New -->
+<h2>2022 vs 2026: A Technical Comparison</h2>
+
+<div class="compare">
+  <div class="compare-card old">
+    <h4>&#x274C; 2022: Perceptual Hashing</h4>
+    <code>phash(img) → 64-bit hash
+hamming_dist(h1, h2) < 10 → duplicate</code>
+    <div class="metric"><span class="metric-label">Approach</span><span class="metric-val">DCT-based fingerprint</span></div>
+    <div class="metric"><span class="metric-label">Dimensions</span><span class="metric-val">64 bits</span></div>
+    <div class="metric"><span class="metric-label">Comparison</span><span class="metric-val bad">O(n²) pairwise</span></div>
+    <div class="metric"><span class="metric-label">Handles crops?</span><span class="metric-val bad">No</span></div>
+    <div class="metric"><span class="metric-label">Handles neg→print?</span><span class="metric-val bad">Poorly</span></div>
+    <div class="metric"><span class="metric-label">Semantic match?</span><span class="metric-val bad">None</span></div>
+    <div class="metric"><span class="metric-label">8K images</span><span class="metric-val">~minutes + manual</span></div>
+    <div class="metric"><span class="metric-label">Cost</span><span class="metric-val">Free (CPU)</span></div>
+  </div>
+  <div class="compare-card new">
+    <h4>&#x2705; 2026: Neural Embeddings + ANN</h4>
+    <code>embed = dinov2(img) → 768-dim vector
+faiss.search(embed, k=5) → neighbors</code>
+    <div class="metric"><span class="metric-label">Approach</span><span class="metric-val">Vision Transformer</span></div>
+    <div class="metric"><span class="metric-label">Dimensions</span><span class="metric-val">384–1024 floats</span></div>
+    <div class="metric"><span class="metric-label">Comparison</span><span class="metric-val good">O(n log n) ANN</span></div>
+    <div class="metric"><span class="metric-label">Handles crops?</span><span class="metric-val good">Yes</span></div>
+    <div class="metric"><span class="metric-label">Handles neg→print?</span><span class="metric-val good">Usually</span></div>
+    <div class="metric"><span class="metric-label">Semantic match?</span><span class="metric-val good">Full</span></div>
+    <div class="metric"><span class="metric-label">8K images</span><span class="metric-val">~10 min (GPU)</span></div>
+    <div class="metric"><span class="metric-label">Cost</span><span class="metric-val">Free (laptop GPU)</span></div>
+  </div>
+</div>
+
+<p>The key insight isn't just that individual comparisons got better — it's that <strong>you no longer need n² comparisons at all</strong>. Vector databases with approximate nearest neighbor (ANN) algorithms like HNSW turn the search from "compare everything to everything" into "find the closest neighbors in a pre-built index." For 8,000 images, this means ~8,000 lookups against a FAISS index instead of ~32 million pairwise comparisons.</p>
+
+<!-- The Modern Pipeline -->
+<h2>The Modern Pipeline</h2>
+<p>If Waseem were starting today, here's what he'd build — in an afternoon:</p>
+
+<div class="pipeline">
+  <div class="pipeline-steps">
+    <div class="pipeline-step">
+      <div class="step-num">STEP 1</div>
+      <div class="step-name">Load</div>
+      <div class="step-tool">PIL / torchvision</div>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <div class="step-num">STEP 2</div>
+      <div class="step-name">Embed</div>
+      <div class="step-tool">DINOv2 / CLIP</div>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <div class="step-num">STEP 3</div>
+      <div class="step-name">Index</div>
+      <div class="step-tool">FAISS / Qdrant</div>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <div class="step-num">STEP 4</div>
+      <div class="step-name">Search</div>
+      <div class="step-tool">ANN k-NN</div>
+    </div>
+    <span class="pipeline-arrow">→</span>
+    <div class="pipeline-step">
+      <div class="step-num">STEP 5</div>
+      <div class="step-name">Review</div>
+      <div class="step-tool">Human (ambiguous only)</div>
+    </div>
+  </div>
+</div>
+
+<p><strong>Step 1: Load.</strong> Read each image, resize to 224×224 (or 518×518 for DINOv2-large), normalize.</p>
+
+<p><strong>Step 2: Embed.</strong> Pass each image through a vision transformer. DINOv2 ViT-B/14 produces a 768-dimensional vector that captures visual and semantic features. On an RTX 3060, this processes ~200 images/second. For 8,000 images: about 40 seconds.</p>
+
+<p><strong>Step 3: Index.</strong> Build a FAISS IndexFlatIP (inner product) or IndexIVFFlat index over the embeddings. For 8,000 vectors at 768 dimensions, the index fits in ~24MB of RAM. Building it takes milliseconds.</p>
+
+<p><strong>Step 4: Search.</strong> For each of the 1,300 unsorted images, query the index for the top-5 nearest neighbors. With an IVF index, each query takes ~1ms. Total: ~1.3 seconds. Cosine similarity > 0.95 = very likely duplicate. 0.85–0.95 = similar scene. < 0.85 = different photo.</p>
+
+<p><strong>Step 5: Review.</strong> Only the ambiguous cases (0.85–0.95 similarity) need human review. For scanned family photos, this is typically 5–15% of matches. The rest are either obvious duplicates or clearly different.</p>
+
+<h3>Cost Analysis</h3>
+
+<table class="cost-table">
+  <tr><th>Item</th><th>2022 Cost</th><th>2026 Cost</th></tr>
+  <tr><td>Software</td><td>Free (pHash, Python)</td><td>Free (DINOv2, FAISS, Python)</td></tr>
+  <tr><td>Compute</td><td>Laptop CPU, hours</td><td>Laptop GPU, minutes</td></tr>
+  <tr><td>Human time</td><td>Days of manual review</td><td>Hours (ambiguous cases only)</td></tr>
+  <tr><td>Cloud API</td><td>N/A</td><td>$0 (all local)</td></tr>
+  <tr><td>Accuracy</td><td>Good for exact dupes</td><td>Good for semantic similarity</td></tr>
+  <tr><td><strong>Total</strong></td><td><strong>~$0 + days</strong></td><td><strong>~$0 + afternoon</strong></td></tr>
+</table>
+
+<!-- Off-the-Shelf Solutions -->
+<h2>Off-the-Shelf Solutions (The Ones Keith Wished For)</h2>
+
+<div class="solutions">
+  <div class="solution-card">
+    <div class="sol-name">Apple Photos</div>
+    <div class="sol-type">Built-in</div>
+    <div class="sol-desc">iOS 16+ / macOS 13+. On-device ML duplicate detection. Auto-merges keeping highest quality + richest metadata. The closest thing to "it just works."</div>
+    <div class="sol-year">Shipped: Sep 2022</div>
+  </div>
+  <div class="solution-card">
+    <div class="sol-name">Google Photos</div>
+    <div class="sol-type">Cloud</div>
+    <div class="sol-desc">Photo Stacks group similar shots. "More like this" reverse-image search in testing. Face clustering. Still doesn't reliably handle negative-vs-print scans.</div>
+    <div class="sol-year">Stacks: Nov 2023</div>
+  </div>
+  <div class="solution-card">
+    <div class="sol-name">Immich</div>
+    <div class="sol-type">Open Source / Self-hosted</div>
+    <div class="sol-desc">Google Photos replacement. CLIP embeddings (ViT-B-32) for smart search. pgvector for similarity. Active development with 50K+ GitHub stars. Duplicate detection via embedding distance &lt; 0.1.</div>
+    <div class="sol-year">Since: 2022, mature 2024+</div>
+  </div>
+  <div class="solution-card">
+    <div class="sol-name">PhotoPrism</div>
+    <div class="sol-type">Open Source / Self-hosted</div>
+    <div class="sol-desc">AI-powered photo app. TensorFlow-based classification and face recognition. File hash + perceptual hash duplicate detection. Docker-native.</div>
+    <div class="sol-year">Since: 2018</div>
+  </div>
+  <div class="solution-card">
+    <div class="sol-name">photo-dedup</div>
+    <div class="sol-type">Open Source / CLI</div>
+    <div class="sol-desc">Purpose-built for Waseem's exact problem. DINOv2 embeddings + MUSIQ quality scoring + face-pose disambiguation. Handles bursts vs tourist selfies. Human-in-the-loop review.</div>
+    <div class="sol-year">2026</div>
+  </div>
+  <div class="solution-card">
+    <div class="sol-name">Mirror of Maya</div>
+    <div class="sol-type">Open Source / Web UI</div>
+    <div class="sol-desc">Dual-stage pipeline: dHash fast-pass + DINOv2 + FAISS similarity search. F1 > 0.93 on standard benchmarks. Streamlit interface for interactive review.</div>
+    <div class="sol-year">2026</div>
+  </div>
+</div>
+
+<!-- What's Still Hard -->
+<h2>What's Still Hard</h2>
+
+<p>Waseem's problem included a genuinely tricky edge case: <strong>negatives vs. prints</strong>. When you scan a photographic negative and a print of the same photo, you get:</p>
+
+<ul style="margin:0 0 16px 24px">
+  <li>Inverted luminance (negative is inverted)</li>
+  <li>Different color profiles (negative film base is orange)</li>
+  <li>Different dynamic range and contrast curves</li>
+  <li>Different crops from the scanner bed</li>
+  <li>Different dust/scratch artifacts</li>
+</ul>
+
+<p>Modern embeddings handle most of this remarkably well — DINOv2 and CLIP learn features that are invariant to color inversion and contrast changes because they've seen millions of augmented training images. But there are still genuinely hard cases:</p>
+
+<ul style="margin:0 0 16px 24px">
+  <li><strong>Photo of a photo:</strong> A digital photo of a physical print introduces perspective distortion, glare, ambient lighting, and moiré patterns. Embeddings catch the subject similarity but the distance can be high enough to miss at strict thresholds.</li>
+  <li><strong>Extreme fading:</strong> Severely faded prints from the 1960s–1970s can shift so far in color space that even learned features struggle. The content is there but buried under decades of chemical decay.</li>
+  <li><strong>Mixed generations:</strong> Original → photocopy → scan → JPEG → screenshot → re-upload. Each generation degrades differently. Perceptual hashes fail by generation 3. Embeddings usually hold to generation 4–5.</li>
+</ul>
+
+<p>For Waseem's specific collection (family photos, scanned prints and negatives), DINOv2 embeddings with a cosine threshold of ~0.80–0.85 would likely catch 90%+ of the cross-media duplicates that pHash missed in 2022.</p>
+
+<!-- Dialogue Transcript -->
+<h2>&#x1F399; Transcript: The Dedup Discourse</h2>
+<p style="color:var(--text-dim);font-size:0.9em;margin-bottom:20px">Jensen Huang and Sam Altman discuss the past, present, and future of finding the same photo twice.</p>
+
+<div class="dialogue" id="transcript">
+  <div class="stage-direction">[ Intro music fades ]</div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">Welcome to The Dedup Discourse. I'm Jensen Huang, CEO of NVIDIA, and I'm here with my good friend Sam.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Thanks Jensen. Today we're talking about a man named Waseem who in 2022 had eight thousand family photos and couldn't figure out which ones were duplicates.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">Eight thousand photos. That's... that's literally a rounding error in our training data. We process eight thousand images before breakfast. Before the GPU even warms up.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">And yet in 2022, this was genuinely a hard problem for a normal person with a laptop.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">It was only hard because he didn't have enough CUDA cores. This is fundamentally a compute problem.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Jensen, not everything is a compute problem.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">Name one thing.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">...Actually that's fair. Okay so Waseem tried the obvious things first. Image hashing. Where you turn each image into a fingerprint and compare fingerprints.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">pHash. Perceptual hashing. DCT-based. Old school. Elegant, actually. You convert the image to frequency domain, keep the low frequencies, threshold them into a 64-bit hash. Then hamming distance tells you how similar two images are.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">And that worked! Kind of. Hamming distance under 10, you've got a duplicate. Around 15, it's a coin flip.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">But here's the thing — Waseem's photos weren't just resized JPEGs. These were scanned negatives versus scanned prints. The same photo, but one is an inverted orange film negative and the other is a Walgreens photo print from 1987. pHash looks at that and says "these images have absolutely nothing in common."</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Right. Because pHash operates on pixel-level frequency patterns. It has no concept of "this is the same family standing in front of the same rock, just in different media formats."</span></div>
+
+  <div class="stage-direction">[ Jensen leans forward ]</div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">And this is where CUDA changes everything.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Oh here we go.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">No, seriously. The solution to Waseem's problem is vision transformers. DINOv2. CLIP. You run each image through a neural network that's been trained on hundreds of millions of images, and it gives you a 768-dimensional vector that captures the <em>meaning</em> of the image, not the pixels. And training those models? CUDA. Running inference? CUDA. Building the FAISS index for nearest-neighbor search? CUDA.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">DINOv2 is actually a Meta model. Facebook Research.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">Trained on NVIDIA GPUs.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">...trained on NVIDIA GPUs, yes. But here's what I find fascinating. In 2022, Waseem's friend Ray said "just wait 10 years and the right thing will happen." It took four.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">Because the compute got there faster than he expected. Moore's Law is dead but Jensen's Law is very much alive.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Did you just... call a law after yourself?</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">The GPU performance curve. It's well documented.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Okay so let me talk about what actually changed. The n-squared problem. Waseem said comparing every image to every other image would take two years. 64 million comparisons. But with FAISS — which, fine, runs on CUDA — you build an approximate nearest-neighbor index and each query takes a millisecond. The whole search finishes in about one second.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">From two years to one second. That's... let me do the math... a 63-million-x speedup. Even I can't sell a GPU with that kind of improvement.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Well it's not really apples to apples. The embedding generation still takes time. But for 8,000 images on a laptop GPU, we're talking about 40 seconds to embed everything and another second to search. Under a minute total.</span></div>
+
+  <div class="stage-direction">[ Sam pauses ]</div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Now here's what Keith Winstein brought up that I love. He said Dawn Perlner did a summer internship at the NSA in 2001 or 2002 working on exactly this problem. The FBI had a thousand photos of a kidnapped child — lots of duplicate scans and xeroxes — and they needed to deduplicate them quickly.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">The NSA was working on this 25 years ago.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">With summer interns.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">I mean, NSA summer interns are probably not your average summer interns, but still.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">The point is this problem has been "almost solved" for a quarter century. And the tools we have now — DINOv2, CLIP, FAISS, Immich, Apple Photos' built-in duplicate detection — they finally make it accessible to a regular person, not just intelligence agencies. That's the real progress.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">Apple shipped duplicate detection in iOS 16. September 2022. Literally the same month Waseem was struggling with this.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">But it wouldn't have solved his problem. Apple's duplicate detection handles identical files and minor re-encodings. A negative scan versus a print scan? Different enough that Apple would shrug.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">Okay, fair. What about Immich? Open source, self-hosted, uses CLIP embeddings.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Getting there. The duplicate detection discussion on Immich's GitHub has been going since 2023. They use the CLIP embeddings they already generate for smart search. Embedding distance under 0.1 means very likely duplicate. It works, but it's not quite a one-button solution yet.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">So Waseem was right. "Probably more like 1-2 years" before it's truly turnkey.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">And Ray was right that waiting was a legitimate strategy. Sometimes the best algorithm is patience.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">Ray said wait 10 years. It took 4. The man is a visionary... but a conservative one.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">I prefer to think of it as "Ray was right with a 2.5x safety margin."</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">So what would Waseem's pipeline look like today? If he sat down right now with his 8,000 photos?</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">pip install torch faiss-cpu. Load DINOv2-base from torch hub. Embed all 8,000 images — 40 seconds. Build a FAISS index. For each unsorted image, find the 5 nearest neighbors. Anything with cosine similarity above 0.95 is an automatic duplicate. 0.85 to 0.95, show to the human. Below 0.85, it's a different photo. Done. An afternoon project.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">And the cost?</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Zero dollars. All open-source, all runs on a laptop. DINOv2 is MIT-licensed. FAISS is MIT-licensed. You don't even need a GPU — it's just faster with one.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">But it's <em>much</em> faster with one.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">There it is.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">I'm just saying, if Waseem had an RTX 4090, those 8,000 embeddings take about 8 seconds instead of 40. And if he had an H100—</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">He's deduplicating family photos, Jensen. He doesn't need an H100.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">Nobody <em>needs</em> an H100. People <em>want</em> an H100. It's aspirational computing.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Anyway. The broader lesson here is that compute plus open models plus vector search turned a "maybe hire an NSA intern" problem into a weekend project. And in another year or two, you probably won't even need to write code. You'll just drag a folder into Immich or Apple Photos and it'll handle everything — negatives, prints, xeroxes, the works.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">Powered by CUDA.</span></div>
+
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Powered by the inevitable march of progress, of which CUDA is one component among many.</span></div>
+
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">...I'll take it.</span></div>
+
+  <div class="stage-direction">[ Outro music ]</div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <p>Built in response to a real email thread, revived after four years.</p>
+  <p>The best algorithm is sometimes patience.</p>
+  <p style="margin-top:12px">
+    Sources: <a href="https://www.phash.org">pHash</a> · 
+    <a href="https://github.com/facebookresearch/dinov2">DINOv2</a> · 
+    <a href="https://github.com/openai/CLIP">CLIP</a> · 
+    <a href="https://github.com/facebookresearch/faiss">FAISS</a> · 
+    <a href="https://immich.app">Immich</a> · 
+    <a href="https://github.com/yubingjiaocn/photo-dedup">photo-dedup</a> · 
+    <a href="https://github.com/prateeksingh438/mirror-of-maya-near-duplicate-image-detection-">Mirror of Maya</a>
+  </p>
+</div>
+
+<script>
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+}, {threshold: 0.1});
+document.querySelectorAll('.timeline-item, .compare-card, .solution-card, .dialogue-line').forEach(el => {
+  el.classList.add('fade-in');
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
