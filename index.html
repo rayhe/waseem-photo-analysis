@@ -223,7 +223,7 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
   <span class="quote-author">Waseem D.</span>
   <span class="quote-date">October 16, 2022</span>
   <br><br>
-  I have about 8,000 family photos. Total size ~40GB or so. I've organized almost all of them into folders by date/event, but about 1,300 remain to be sorted. Of those 1,300, many of them are duplicates of images I've already sorted, but they're not perfect duplicates because: sometimes they're the result of having scanned a print more than once, sometimes one is "the scan of the negative" and one is "the scan of the print."
+  Waseem described his collection: roughly 8,000 family photos totaling about 40GB, organized into folders by date and event — except for about 1,300 still unsorted. Many of those were duplicates of already-sorted images, but not exact copies. Some were re-scans of the same print; others paired a scan of the negative with a scan of the print.
 </blockquote>
 
 <p>The constraints made this interesting. These weren't digital camera burst shots. They were <em>analog photographs</em> that had been scanned multiple times, sometimes as negatives, sometimes as prints. The "same" photo could look dramatically different depending on the scanning hardware, orientation, color correction, and whether it was scanned from a print or a negative.</p>
@@ -238,7 +238,7 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
 
 <blockquote>
   <span class="quote-author">Waseem D.</span>
-  Doing #2 by hand is too slow — 8000² = 64,000,000 — if each comparison took only one second it would take me two years. My budget for this is probably like... ≤$1k, not $640k.
+  Waseem did the math on brute force: 8,000² = 64 million comparisons. At one second each, that's two years of work. His budget was around $1K, not $640K.
 </blockquote>
 
 <p>Ray suggested perceptual hashing and CLIP-based scene descriptions. Keith W., a Stanford CS professor, wished for a turnkey solution that didn't exist.</p>
@@ -252,7 +252,7 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
   <span class="quote-author">Waseem D.</span>
   <span class="quote-date">October 17, 2022</span>
   <br><br>
-  phash.org actually seems to work well on my three test cases (the DCT option). Of course, it didn't have Python bindings and I was totally unable to get it to build in Colab, but building it locally seems to actually sorta work. And the n² comparison is OK as long as the actual comparison itself is fast!
+  Waseem found that pHash's DCT option worked well on his test cases. Getting it running was the hard part — no Python bindings, wouldn't build in Colab — but a local build worked. And with compact hashes, the n² comparison was fast enough.
 </blockquote>
 
 <p>The result:</p>
@@ -261,10 +261,10 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
   <span class="quote-author">Waseem D.</span>
   <span class="quote-date">October 18, 2022</span>
   <br><br>
-  I hash each image, and then I do the n² comparison over all hashes to compute the hamming distance between the hashes to score them on similarity. If it's &lt; 10, they're basically in fact "the same image", if it's ~15 or so, sometimes they are, sometimes they're totally random.
+  The approach: hash each image, then do pairwise Hamming distance comparisons. Under 10: effectively the same image. Around 15: sometimes a match, sometimes not.
 </blockquote>
 
-<p>It worked. Well enough, anyway. "Well enough to give the human (me) some manual tasks to do that I think are reasonably good uses of time."</p>
+<p>It worked. Well enough, anyway — enough to surface actionable tasks for a human to finish manually.</p>
 
 <p>Keith's reaction captured the state of the art perfectly:</p>
 
@@ -272,7 +272,7 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
   <span class="quote-author">Keith W., Stanford CS</span>
   <span class="quote-date">October 18, 2022</span>
   <br><br>
-  I don't have a lot to add to this, but I'm sorry the answer isn't just "if you don't want to DIY this, you can put everything in Google Photos [or FOSS Gallery2, or Adobe Whatever, or some other photo-archiving software] and it will dependably eliminate duplicates and cluster similar events together for you." :-/
+  Keith's reaction captured the state of the art: he wished the answer were simply "use Google Photos or some other photo-archiving software and it'll dependably eliminate duplicates and cluster similar events for you." But no such tool existed.
 </blockquote>
 
 <p>And then came The Prophecy:</p>
@@ -293,19 +293,14 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
   <span class="quote-author">Waseem D.</span>
   <span class="quote-date">August 27, 2026</span>
   <br><br>
-  In retrospect this was the right answer. It's not totally turnkey quite yet but this is basically a tractable problem today.
+  Waseem revived the thread four years later, agreeing that waiting had turned out to be the right call. The problem wasn't fully turnkey yet, but it was now tractable with off-the-shelf tools.
 </blockquote>
 
 <blockquote>
   <span class="quote-author">Ray</span>
   <span class="quote-date">August 27, 2026</span>
   <br><br>
-  Wait another 5 years and it'll be automatic!?
-</blockquote>
-
-<blockquote>
-  <span class="quote-author">Waseem D.</span>
-  Probably more like 1-2 years but definitely by 5.
+  Ray joked: wait another five years and it'll be completely automatic. Waseem thought more like one or two.
 </blockquote>
 
 <p>Keith added historical color:</p>
@@ -314,7 +309,7 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
   <span class="quote-author">Keith W.</span>
   <span class="quote-date">August 27, 2026</span>
   <br><br>
-  My recollection (circa like 2002) is that Dawn P. did a summer internship at the NSA working on basically exactly this problem! Like the FBI gets 1,000 photos of a kidnapped child, but a lot of them are essentially duplicate scans or xeroxes of the same underlying photo, and the FBI wants to boil them down to a smaller list of unique photos... I think parts of this problem have been tractable and in demand for like 25 years. It's a little sad the "Gallery2"s of the world did not continue to improve.
+  Keith added historical context: around 2002, a colleague named Dawn P. did a summer internship at the NSA working on essentially the same problem — deduplicating hundreds of photos of a kidnapped child for the FBI, where many were duplicate scans or xeroxes of the same underlying image. Parts of this problem have been in demand for 25 years; it's a little sad the consumer photo tools never caught up.
 </blockquote>
 
 <!-- Timeline -->
@@ -344,7 +339,7 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
   <div class="timeline-item">
     <div class="timeline-year">September 2022</div>
     <div class="timeline-title">Apple Ships Duplicate Detection</div>
-    <div class="timeline-desc">iOS 16 introduces on-device ML duplicate detection in Photos. Uses neural embeddings under the hood. Works automatically, merges metadata from duplicates. The turnkey solution Keith wished for — if you're in Apple's ecosystem.</div>
+    <div class="timeline-desc">iOS 16 introduces on-device ML duplicate detection in Photos. Works automatically, merges metadata from duplicates. The turnkey solution Keith wished for — if you're in Apple's ecosystem.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-year">November 2023</div>
@@ -358,8 +353,8 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
   </div>
   <div class="timeline-item solved">
     <div class="timeline-year">2025–2026</div>
-    <div class="timeline-title">Basically Solved</div>
-    <div class="timeline-desc">Purpose-built tools like photo-dedup (DINOv2 + MUSIQ + face-pose), Mirror of Maya (DINOv2 + FAISS, F1 > 0.93), and swarm-of-agents-photo-gaze (DINOv2 + Qdrant) solve Waseem's exact problem. Cost: $0. Time: an afternoon.</div>
+    <div class="timeline-title">Within Reach</div>
+    <div class="timeline-desc">Purpose-built tools like photo-dedup (DINOv2 + MUSIQ + face-pose), Mirror of Maya (DINOv2 + FAISS), and swarm-of-agents-photo-gaze (DINOv2 + Qdrant) address Waseem's exact problem. All open-source and runnable on consumer hardware, though results still depend on the collection and some manual review is needed.</div>
   </div>
 </div>
 
@@ -386,7 +381,7 @@ hamming_dist(h1, h2) < 10 → duplicate</code>
 faiss.search(embed, k=5) → neighbors</code>
     <div class="metric"><span class="metric-label">Approach</span><span class="metric-val">Vision Transformer</span></div>
     <div class="metric"><span class="metric-label">Dimensions</span><span class="metric-val">384–1024 floats</span></div>
-    <div class="metric"><span class="metric-label">Comparison</span><span class="metric-val good">O(n log n) ANN</span></div>
+    <div class="metric"><span class="metric-label">Comparison</span><span class="metric-val good">Sub-linear ANN</span></div>
     <div class="metric"><span class="metric-label">Handles crops?</span><span class="metric-val good">Yes</span></div>
     <div class="metric"><span class="metric-label">Handles neg→print?</span><span class="metric-val good">Usually</span></div>
     <div class="metric"><span class="metric-label">Semantic match?</span><span class="metric-val good">Full</span></div>
@@ -395,11 +390,11 @@ faiss.search(embed, k=5) → neighbors</code>
   </div>
 </div>
 
-<p>The key insight isn't just that individual comparisons got better — it's that <strong>you no longer need n² comparisons at all</strong>. Vector databases with approximate nearest neighbor (ANN) algorithms like HNSW turn the search from "compare everything to everything" into "find the closest neighbors in a pre-built index." For 8,000 images, this means ~8,000 lookups against a FAISS index instead of ~32 million pairwise comparisons.</p>
+<p>The key insight isn't just that individual comparisons got better — it's that <strong>you no longer need n² comparisons at all</strong>. Vector databases with approximate nearest neighbor (ANN) algorithms like HNSW pre-build an index so that queries only visit a small fraction of the dataset. For 8,000 images, this means ~8,000 lookups against a FAISS index instead of ~32 million pairwise comparisons. The exact speedup depends on the index type and parameters, but the difference between sub-linear search and brute-force pairwise is enormous.</p>
 
 <!-- The Modern Pipeline -->
 <h2>The Modern Pipeline</h2>
-<p>If Waseem were starting today, here's what he'd build — in an afternoon:</p>
+<p>If Waseem were starting today, here's what he'd build:</p>
 
 <div class="pipeline">
   <div class="pipeline-steps">
@@ -437,13 +432,13 @@ faiss.search(embed, k=5) → neighbors</code>
 
 <p><strong>Step 1: Load.</strong> Read each image, resize to 224×224 (or 518×518 for DINOv2-large), normalize.</p>
 
-<p><strong>Step 2: Embed.</strong> Pass each image through a vision transformer. DINOv2 ViT-B/14 produces a 768-dimensional vector that captures visual and semantic features. On an RTX 3060, this processes ~200 images/second. For 8,000 images: about 40 seconds.</p>
+<p><strong>Step 2: Embed.</strong> Pass each image through a vision transformer. DINOv2 ViT-B/14 produces a 768-dimensional vector that captures visual and semantic features. On a mid-range GPU, this can process thousands of images in minutes. For 8,000 images: well under a minute on most modern hardware.</p>
 
 <p><strong>Step 3: Index.</strong> Build a FAISS IndexFlatIP (inner product) or IndexIVFFlat index over the embeddings. For 8,000 vectors at 768 dimensions, the index fits in ~24MB of RAM. Building it takes milliseconds.</p>
 
-<p><strong>Step 4: Search.</strong> For each of the 1,300 unsorted images, query the index for the top-5 nearest neighbors. With an IVF index, each query takes ~1ms. Total: ~1.3 seconds. Cosine similarity > 0.95 = very likely duplicate. 0.85–0.95 = similar scene. < 0.85 = different photo.</p>
+<p><strong>Step 4: Search.</strong> For each of the 1,300 unsorted images, query the index for the top-5 nearest neighbors. With an IVF index, each query takes ~1ms. Total: ~1.3 seconds. Higher cosine similarity means higher likelihood of a duplicate, but the right threshold depends on the dataset — scanned negatives vs. prints need a lower bar than digital re-encodes. There's no universal cutoff.</p>
 
-<p><strong>Step 5: Review.</strong> Only the ambiguous cases (0.85–0.95 similarity) need human review. For scanned family photos, this is typically 5–15% of matches. The rest are either obvious duplicates or clearly different.</p>
+<p><strong>Step 5: Review.</strong> Only the ambiguous cases need human review — how many depends on the collection and the thresholds chosen. The rest are either obvious duplicates or clearly different.</p>
 
 <h3>Cost Analysis</h3>
 
@@ -454,7 +449,7 @@ faiss.search(embed, k=5) → neighbors</code>
   <tr><td>Human time</td><td>Days of manual review</td><td>Hours (ambiguous cases only)</td></tr>
   <tr><td>Cloud API</td><td>N/A</td><td>$0 (all local)</td></tr>
   <tr><td>Accuracy</td><td>Good for exact dupes</td><td>Good for semantic similarity</td></tr>
-  <tr><td><strong>Total</strong></td><td><strong>~$0 + days</strong></td><td><strong>~$0 + afternoon</strong></td></tr>
+  <tr><td><strong>Total</strong></td><td><strong>~$0 + days</strong></td><td><strong>~$0 + hours</strong></td></tr>
 </table>
 
 <!-- Off-the-Shelf Solutions -->
@@ -494,7 +489,7 @@ faiss.search(embed, k=5) → neighbors</code>
   <div class="solution-card">
     <div class="sol-name">Mirror of Maya</div>
     <div class="sol-type">Open Source / Web UI</div>
-    <div class="sol-desc">Dual-stage pipeline: dHash fast-pass + DINOv2 + FAISS similarity search. F1 > 0.93 on standard benchmarks. Streamlit interface for interactive review.</div>
+    <div class="sol-desc">Dual-stage pipeline: dHash fast-pass + DINOv2 + FAISS similarity search. Streamlit interface for interactive review.</div>
     <div class="sol-year">2026</div>
   </div>
 </div>
@@ -512,15 +507,15 @@ faiss.search(embed, k=5) → neighbors</code>
   <li>Different dust/scratch artifacts</li>
 </ul>
 
-<p>Modern embeddings handle most of this remarkably well — DINOv2 and CLIP learn features that are invariant to color inversion and contrast changes because they've seen millions of augmented training images. But there are still genuinely hard cases:</p>
+<p>Modern embeddings handle some of this well — DINOv2 and CLIP learn high-level features that can be robust to many visual transformations. However, neither model was specifically trained on photographic negatives or scans of prints, so their performance on these transformations is not guaranteed and varies by case. There are still genuinely hard cases:</p>
 
 <ul style="margin:0 0 16px 24px">
   <li><strong>Photo of a photo:</strong> A digital photo of a physical print introduces perspective distortion, glare, ambient lighting, and moiré patterns. Embeddings catch the subject similarity but the distance can be high enough to miss at strict thresholds.</li>
   <li><strong>Extreme fading:</strong> Severely faded prints from the 1960s–1970s can shift so far in color space that even learned features struggle. The content is there but buried under decades of chemical decay.</li>
-  <li><strong>Mixed generations:</strong> Original → photocopy → scan → JPEG → screenshot → re-upload. Each generation degrades differently. Perceptual hashes fail by generation 3. Embeddings usually hold to generation 4–5.</li>
+  <li><strong>Mixed generations:</strong> Original → photocopy → scan → JPEG → screenshot → re-upload. Each generation degrades differently. Perceptual hashes fail quickly as generation count increases. Neural embeddings are more resilient but degrade too — how far they hold depends on the specific transformations involved.</li>
 </ul>
 
-<p>For Waseem's specific collection (family photos, scanned prints and negatives), DINOv2 embeddings with a cosine threshold of ~0.80–0.85 would likely catch 90%+ of the cross-media duplicates that pHash missed in 2022.</p>
+<p>For Waseem's specific collection (family photos, scanned prints and negatives), DINOv2 embeddings with a tuned cosine threshold would likely catch many of the cross-media duplicates that pHash missed in 2022 — though the right threshold and how many it catches will depend on the specific scans.</p>
 
 <!-- Dialogue Transcript -->
 <h2>&#x1F399; Transcript: The Dedup Discourse</h2>
@@ -577,7 +572,7 @@ faiss.search(embed, k=5) → neighbors</code>
 
   <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">From two years to one second. That's... let me do the math... a 63-million-x speedup. Even I can't sell a GPU with that kind of improvement.</span></div>
 
-  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Well it's not really apples to apples. The embedding generation still takes time. But for 8,000 images on a laptop GPU, we're talking about 40 seconds to embed everything and another second to search. Under a minute total.</span></div>
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Well it's not really apples to apples. The embedding generation still takes time. But for 8,000 images on a laptop GPU, we're talking minutes to embed everything and about a second to search. Under five minutes total.</span></div>
 
   <div class="stage-direction">[ Sam pauses ]</div>
 
@@ -609,7 +604,7 @@ faiss.search(embed, k=5) → neighbors</code>
 
   <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">So what would Waseem's pipeline look like today? If he sat down right now with his 8,000 photos?</span></div>
 
-  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">pip install torch faiss-cpu. Load DINOv2-base from torch hub. Embed all 8,000 images — 40 seconds. Build a FAISS index. For each unsorted image, find the 5 nearest neighbors. Anything with cosine similarity above 0.95 is an automatic duplicate. 0.85 to 0.95, show to the human. Below 0.85, it's a different photo. Done. An afternoon project.</span></div>
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">pip install torch faiss-cpu. Load DINOv2-base from torch hub. Embed all 8,000 images — takes a minute or two on a laptop. Build a FAISS index. For each unsorted image, find the 5 nearest neighbors. Set a cosine similarity threshold that makes sense for the collection — it'll vary depending on whether you're dealing with re-encodes, rescans, or negatives. Show the borderline cases to a human. Done. A weekend project, maybe less.</span></div>
 
   <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">And the cost?</span></div>
 
@@ -619,7 +614,7 @@ faiss.search(embed, k=5) → neighbors</code>
 
   <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">There it is.</span></div>
 
-  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">I'm just saying, if Waseem had an RTX 4090, those 8,000 embeddings take about 8 seconds instead of 40. And if he had an H100—</span></div>
+  <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">I'm just saying, if Waseem had an RTX 4090, those embeddings would fly. And if he had an H100—</span></div>
 
   <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">He's deduplicating family photos, Jensen. He doesn't need an H100.</span></div>
 
