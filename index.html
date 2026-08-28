@@ -198,7 +198,7 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
 
 <h1>Waseem's Photo Project</h1>
 <p class="subtitle">A Meta-Analysis of Near-Duplicate Image Detection: 2001 to 2026</p>
-<p class="byline">Inspired by a real email thread between Waseem Daher, Ray He, and Keith Winstein</p>
+<p class="byline">Inspired by a real email thread between Waseem D., Ray, and Keith W.</p>
 
 <!-- Audio Section -->
 <div class="audio-section" id="audio-section">
@@ -217,10 +217,10 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
 <!-- The Origin Story -->
 <h2>The Origin Story</h2>
 
-<p>In October 2022, Waseem Daher sent an email to two friends. The problem was simple. The solution was not.</p>
+<p>In October 2022, Waseem D. sent an email to two friends. The problem was simple. The solution was not.</p>
 
 <blockquote>
-  <span class="quote-author">Waseem Daher</span>
+  <span class="quote-author">Waseem D.</span>
   <span class="quote-date">October 16, 2022</span>
   <br><br>
   I have about 8,000 family photos. Total size ~40GB or so. I've organized almost all of them into folders by date/event, but about 1,300 remain to be sorted. Of those 1,300, many of them are duplicates of images I've already sorted, but they're not perfect duplicates because: sometimes they're the result of having scanned a print more than once, sometimes one is "the scan of the negative" and one is "the scan of the print."
@@ -237,11 +237,11 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
 <p>And he did the math on brute force:</p>
 
 <blockquote>
-  <span class="quote-author">Waseem Daher</span>
+  <span class="quote-author">Waseem D.</span>
   Doing #2 by hand is too slow — 8000² = 64,000,000 — if each comparison took only one second it would take me two years. My budget for this is probably like... ≤$1k, not $640k.
 </blockquote>
 
-<p>Ray He suggested perceptual hashing and CLIP-based scene descriptions. Keith Winstein, a Stanford CS professor, wished for a turnkey solution that didn't exist.</p>
+<p>Ray suggested perceptual hashing and CLIP-based scene descriptions. Keith W., a Stanford CS professor, wished for a turnkey solution that didn't exist.</p>
 
 <!-- The 2022 Solution -->
 <h2>What Actually Worked in 2022</h2>
@@ -249,7 +249,7 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
 <p>After trying <code>imagehash</code> (poor results) and CLIP interrogator (cool but impractical), Waseem landed on <a href="https://www.phash.org">pHash</a> — the perceptual hash library using DCT (Discrete Cosine Transform) to generate compact fingerprints of images.</p>
 
 <blockquote>
-  <span class="quote-author">Waseem Daher</span>
+  <span class="quote-author">Waseem D.</span>
   <span class="quote-date">October 17, 2022</span>
   <br><br>
   phash.org actually seems to work well on my three test cases (the DCT option). Of course, it didn't have Python bindings and I was totally unable to get it to build in Colab, but building it locally seems to actually sorta work. And the n² comparison is OK as long as the actual comparison itself is fast!
@@ -258,7 +258,7 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
 <p>The result:</p>
 
 <blockquote>
-  <span class="quote-author">Waseem Daher</span>
+  <span class="quote-author">Waseem D.</span>
   <span class="quote-date">October 18, 2022</span>
   <br><br>
   I hash each image, and then I do the n² comparison over all hashes to compute the hamming distance between the hashes to score them on similarity. If it's &lt; 10, they're basically in fact "the same image", if it's ~15 or so, sometimes they are, sometimes they're totally random.
@@ -269,7 +269,7 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
 <p>Keith's reaction captured the state of the art perfectly:</p>
 
 <blockquote>
-  <span class="quote-author">Keith Winstein, Stanford CS</span>
+  <span class="quote-author">Keith W., Stanford CS</span>
   <span class="quote-date">October 18, 2022</span>
   <br><br>
   I don't have a lot to add to this, but I'm sorry the answer isn't just "if you don't want to DIY this, you can put everything in Google Photos [or FOSS Gallery2, or Adobe Whatever, or some other photo-archiving software] and it will dependably eliminate duplicates and cluster similar events together for you." :-/
@@ -278,7 +278,7 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
 <p>And then came The Prophecy:</p>
 
 <blockquote>
-  <span class="quote-author">Ray He</span>
+  <span class="quote-author">Ray</span>
   <span class="quote-date">October 2022</span>
   <br><br>
   Just wait 10 years and the right thing will happen.
@@ -290,31 +290,31 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
 <p>Four years later — not ten — Waseem revived the thread.</p>
 
 <blockquote>
-  <span class="quote-author">Waseem Daher</span>
+  <span class="quote-author">Waseem D.</span>
   <span class="quote-date">August 27, 2026</span>
   <br><br>
   In retrospect this was the right answer. It's not totally turnkey quite yet but this is basically a tractable problem today.
 </blockquote>
 
 <blockquote>
-  <span class="quote-author">Ray He</span>
+  <span class="quote-author">Ray</span>
   <span class="quote-date">August 27, 2026</span>
   <br><br>
   Wait another 5 years and it'll be automatic!?
 </blockquote>
 
 <blockquote>
-  <span class="quote-author">Waseem Daher</span>
+  <span class="quote-author">Waseem D.</span>
   Probably more like 1-2 years but definitely by 5.
 </blockquote>
 
 <p>Keith added historical color:</p>
 
 <blockquote>
-  <span class="quote-author">Keith Winstein</span>
+  <span class="quote-author">Keith W.</span>
   <span class="quote-date">August 27, 2026</span>
   <br><br>
-  My recollection (circa like 2002) is that Dawn Perlner did a summer internship at the NSA working on basically exactly this problem! Like the FBI gets 1,000 photos of a kidnapped child, but a lot of them are essentially duplicate scans or xeroxes of the same underlying photo, and the FBI wants to boil them down to a smaller list of unique photos... I think parts of this problem have been tractable and in demand for like 25 years. It's a little sad the "Gallery2"s of the world did not continue to improve.
+  My recollection (circa like 2002) is that Dawn P. did a summer internship at the NSA working on basically exactly this problem! Like the FBI gets 1,000 photos of a kidnapped child, but a lot of them are essentially duplicate scans or xeroxes of the same underlying photo, and the FBI wants to boil them down to a smaller list of unique photos... I think parts of this problem have been tractable and in demand for like 25 years. It's a little sad the "Gallery2"s of the world did not continue to improve.
 </blockquote>
 
 <!-- Timeline -->
@@ -324,7 +324,7 @@ blockquote .quote-date{color:var(--text-dim);font-size:0.8em}
   <div class="timeline-item nsa">
     <div class="timeline-year">~2001–2002</div>
     <div class="timeline-title">NSA Summer Interns</div>
-    <div class="timeline-desc">Dawn Perlner works on photo deduplication for the FBI at the NSA. The problem: 1,000 photos of a kidnapped child, many duplicate scans/xeroxes. The tools: classified. The budget: unlimited. The result: also classified.</div>
+    <div class="timeline-desc">Dawn P. works on photo deduplication for the FBI at the NSA. The problem: 1,000 photos of a kidnapped child, many duplicate scans/xeroxes. The tools: classified. The budget: unlimited. The result: also classified.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-year">2008–2010</div>
@@ -581,7 +581,7 @@ faiss.search(embed, k=5) → neighbors</code>
 
   <div class="stage-direction">[ Sam pauses ]</div>
 
-  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Now here's what Keith Winstein brought up that I love. He said Dawn Perlner did a summer internship at the NSA in 2001 or 2002 working on exactly this problem. The FBI had a thousand photos of a kidnapped child — lots of duplicate scans and xeroxes — and they needed to deduplicate them quickly.</span></div>
+  <div class="dialogue-line"><span class="speaker sama">SAM:</span><span class="text">Now here's what Keith W. brought up that I love. He said Dawn P. did a summer internship at the NSA in 2001 or 2002 working on exactly this problem. The FBI had a thousand photos of a kidnapped child — lots of duplicate scans and xeroxes — and they needed to deduplicate them quickly.</span></div>
 
   <div class="dialogue-line"><span class="speaker jensen">JENSEN:</span><span class="text">The NSA was working on this 25 years ago.</span></div>
 
